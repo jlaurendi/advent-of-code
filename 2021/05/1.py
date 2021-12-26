@@ -7,6 +7,8 @@ def solve(input_path):
 	with open(input_path) as f:
 		lines = [ln.strip().split(' -> ') for ln in f.readlines()]
 		lines = [[tuple(map(int, elt.split(','))) for elt in ln] for ln in lines ]
+
+		# Filter out lines that aren't horizontal or vertical
 		lines = filter(lambda x: x[0][0] == x[1][0] or x[0][1] == x[1][1], lines)
 
 	grid = {}
