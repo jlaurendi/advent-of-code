@@ -41,7 +41,10 @@ if __FILE__ == $0
   input = fetch_input(year, day, session_cookie)
   day_string = (1..9).include?(day) ? "0#{day.to_s}" : day.to_s
 
+ 	directory_filename = "#{day_string}"
   input_filename = "#{day_string}/input.txt"
+
+	FileUtils.mkdir_p(directory_filename)
   File.write(input_filename, input)
 
   solution_filename = "#{day_string}/solution.rb"
