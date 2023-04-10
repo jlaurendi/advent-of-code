@@ -1,5 +1,6 @@
 require "net/http"
 require "uri"
+require "FileUtils"
 session_cookie = ENV["AOC_SESSION_COOKIE"]
 
 if session_cookie.nil?
@@ -39,6 +40,12 @@ if __FILE__ == $0
 
   input = fetch_input(year, day, session_cookie)
   day_string = (1..9).include?(day) ? "0#{day.to_s}" : day.to_s
-  filename = "#{year}/#{day_string}/input.txt"
-  File.write(filename, input)
+
+  input_filename = "#{day_string}/input.txt"
+  File.write(input_filename, input)
+
+  solution_filename = "#{day_string}/solution.rb"
+  unless File.exist?(solution_filename)
+	  FileUtils.cp("template.rb", solution_filename)
+	end
 end
