@@ -9,9 +9,15 @@ class AOCClass
             end
             i += 1 
         end
-        grid = input.lines[0..break_point-1].map{ |line| line.gsub("/\n/", "") }
+        grid_input = input.lines[0..break_point-1].map{ |line| line.gsub("\n", "") }
         instructions = input.lines[break_point..].map{ |line| line.strip }
+
+        grid = parse_grid(grid_input)
         return grid, instructions
+    end
+
+    def parse_grid(grid_input)
+        nums = grid_input[-1]
     end
 
     def part_one(input)
