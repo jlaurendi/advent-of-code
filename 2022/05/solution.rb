@@ -91,14 +91,10 @@
         grid, instructions = parse_input(input)
 
         instructions.each do |move|
-            # print_grid(grid)
-            # puts "move: #{move}"
             process_move_part_two(move, grid)
-            # print_grid(grid)
-            # exit 1
         end
 
-        print_grid(grid)
+        # print_grid(grid)
 
         result = ""
         grid.each do |line|
