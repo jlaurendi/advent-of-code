@@ -76,7 +76,7 @@ class AOCClass
         for i in start..stop
             idx = dir2 == 'normal' ? i : stop - i
             curr_height = dir1 == 'horizontal' ? grid[idx][y] : grid[x][idx]
-            # count += 1
+            count += 1
             if curr_height >= max_elt
                 max_elt = curr_height
                 if max_elt == 9 || max_elt >= tree_height
@@ -137,7 +137,7 @@ class AOCClass
         for i in 0..length-1
             for j in 0..width-1
                 score = calculate_scenic_score(grid, i, j)
-                puts "#{i}, #{j}: #{score}"
+                # puts "#{i}, #{j}: #{score}"
                 # if score == 1800
                 #     puts "Score 1800! (#{i}, #{j})"
                 #     puts grid[i][j]
