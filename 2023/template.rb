@@ -1,5 +1,10 @@
 class AOCClass
+    def parse(input)
+
+    end
+
     def part_one(input)
+        parse(input)
         return "incomplete"
     end
 

@@ -50,5 +50,5 @@ if __FILE__ == $0
   solution_filename = "#{day_string}/solution.rb"
   unless File.exist?(solution_filename)
 	  FileUtils.cp("template.rb", solution_filename)
-	end
+  end
 end
