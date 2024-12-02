@@ -1,14 +1,24 @@
 use reqwest::header::COOKIE;
 use std::env;
 use std::fs;
-use std::path::Path;
+use std::path::PathBuf;
+
+fn find_project_root() -> Result<PathBuf, Box<dyn std::error::Error>> {
+    let mut current_path = env::current_exe()?.parent().unwrap().to_path_buf();
+
+    while !current_path.join("Cargo.toml").exists() {
+        if !current_path.pop() {
+            return Err("Could not find the project root (Cargo.toml)".into());
+        }
+    }
+    Ok(current_path)
+}
+
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Get environment variable
     let session_cookie = env::var("AOC_SESSION_COOKIE").expect("Please set AOC_SESSION_COOKIE as an environment variable.");
 
-    // Get year and day from command-line arguments
     let args: Vec<String> = env::args().collect();
     if args.len() != 3 {
         eprintln!("Usage: fetch_input YEAR DAY");
@@ -25,10 +35,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         panic!("Day must be a valid integer between 1 and 31.");
     }
 
-    // Format the day string (e.g., "01" for day 1)
     let day_string = format!("{:02}", day);
 
-    // Fetch the input
     let url = format!("https://adventofcode.com/{}/day/{}/input", year, day);
     let client = reqwest::Client::new();
     let response = client
@@ -47,15 +55,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let input = response.text().await?;
 
-    // Create directory and save input
-    let directory = Path::new(&day_string);
-    let input_file = directory.join("input.txt");
+    let project_root = find_project_root()?;
+    let directory = project_root.join("src/bin");
+    let input_file = directory.join(format!("input/{}.txt", day_string));
 
-    fs::create_dir_all(&directory)?;
     fs::write(&input_file, input)?;
 
-    // Create a solution file if it doesn't exist
-    let solution_file = directory.join("solution.rs");
+    let solution_file = directory.join(format!("{}.rs", day));
     if !solution_file.exists() {
         let template = "// Write your solution here\nfn main() {}";
         fs::write(&solution_file, template)?;
